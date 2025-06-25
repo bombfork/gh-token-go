@@ -1,4 +1,4 @@
-package ghtoken
+package providers
 
 import (
 	"encoding/json"
@@ -19,7 +19,7 @@ type ghAppTokenProviderImpl struct {
 	expiresAt      time.Time
 }
 
-func newGhAppTokenProvider(pemKey string, appID int, installationID int) (GhTokenProvider, error) {
+func NewGhAppTokenProvider(pemKey string, appID int, installationID int) (*ghAppTokenProviderImpl, error) {
 	log.Println("Creating a new GhAppTokenProvider")
 	p := &ghAppTokenProviderImpl{
 		pemKey:         pemKey,

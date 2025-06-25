@@ -1,10 +1,10 @@
-package ghtoken
+package providers
 
 type ghPatProviderImpl struct {
 	token string
 }
 
-func newGhPatProvider(pat string) (GhTokenProvider, error) {
+func NewGhPatProvider(pat string) (*ghPatProviderImpl, error) {
 	return &ghPatProviderImpl{
 		token: pat,
 	}, nil

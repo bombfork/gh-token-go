@@ -3,6 +3,8 @@ package ghtoken
 import (
 	"os"
 	"strconv"
+
+	"github.com/bombfork/gh-token-go/internal/providers"
 )
 
 type ErrNoCredsProvided struct{}
@@ -31,11 +33,11 @@ func NewGhTokenProvider() (GhTokenProvider, error) {
 		if err != nil {
 			return nil, err
 		}
-		return newGhAppTokenProvider(appPemKey, appId, appInstId)
+		return providers.NewGhAppTokenProvider(appPemKey, appId, appInstId)
 	} else if isSetPatVar {
-		return newGhPatProvider(patVal)
+		return providers.NewGhPatProvider(patVal)
 	} else if isSetStdPatVar {
-		return newGhPatProvider(stdPatVal)
+		return providers.NewGhPatProvider(stdPatVal)
 	} else {
 		return nil, ErrNoCredsProvided{}
 	}
