@@ -1,0 +1,46 @@
+[tools]
+go = "latest"
+golangci-lint = "latest"
+gotestsum = "latest"
+
+[tasks.check-mocks-in-tests-only]
+description = "Check mocks are only imported in test files"
+run = """
+if git grep internal/testutils/mocks | cut -d':' -f1 | grep -vE 'mise.toml|_test.go$' >/dev/null; then
+  echo 'mocks package should not be imported outside of test files, fix those files : '
+  git grep internal/testutils/mocks | cut -d':' -f1 | grep -vE 'mise.toml|_test.go$' | uniq
+else
+  echo 'OK : mock package not imported outside of test files'
+fi
+"""
+[tasks.update-go]
+description = "update go from mise used version"
+run = '''
+ sed -i "/^go .*/d" go.mod && go mod tidy
+'''
+
+[tasks.format]
+description = "format"
+run = 'find . -name "*.go" -exec go fmt {} \;'
+
+[tasks.format-diff]
+description = "format git diff"
+depends = ["check-mocks-in-tests-only"]
+run = 'git fetch origin && for f in $(git diff --name-only origin/main | grep .go); do [[ -f ${f} ]] && go fmt ${f} || echo "ignoring removed file ${f}"; done'
+
+[tasks.lint]
+description = "lint"
+depends = ["check-mocks-in-tests-only"]
+run = "golangci-lint run"
+
+[tasks.test]
+description = "test"
+depends = ["check-mocks-in-tests-only"]
+run = "gotestsum --format testname"
+
+[tasks.coverage]
+description = "Print a test coverage report"
+run = 'go test -coverprofile=coverage.out ./... >/dev/null 2>&1; sed -i "/internal\/testutils/d" coverage.out; go tool cover -func=coverage.out | grep -v "100.0%"; rm coverage.out'
+
+[env]
+_.file = ".env.yaml"
