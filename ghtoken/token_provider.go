@@ -33,9 +33,9 @@ func NewGhTokenProvider() (GhTokenProvider, error) {
 		}
 		return newGhAppTokenProvider(appPemKey, appId, appInstId)
 	} else if isSetPatVar {
-		return newGhPatTokenProvider(patVal)
+		return newGhPatProvider(patVal)
 	} else if isSetStdPatVar {
-		return newGhPatTokenProvider(stdPatVal)
+		return newGhPatProvider(stdPatVal)
 	} else {
 		return nil, ErrNoCredsProvided{}
 	}

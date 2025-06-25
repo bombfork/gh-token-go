@@ -22,7 +22,7 @@ If both PAT vriables are set, GH_TOKEN will be used.
 package main
 
 import (
-  fmt
+  "fmt"
   github.com/bombfork/gh-token-go/ghtoken
 )
 

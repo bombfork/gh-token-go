@@ -8,7 +8,7 @@ A simple Go module to use Github Application Tokens or Personal Access Tokens (P
 package main
 
 import (
-  fmt
+  "fmt"
   github.com/bombfork/gh-token-go/ghtoken
 )
 
