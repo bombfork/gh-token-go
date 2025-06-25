@@ -41,3 +41,5 @@ func main() {
 	fmt.Println("GitHub Token:", token)
 }
 */
+
+/* You can set GH_TOKEN_API_URL to specify a custom GitHub API URL. */

@@ -17,14 +17,16 @@ type ghAppTokenProviderImpl struct {
 	installationID int
 	token          string
 	expiresAt      time.Time
+	ghApiUrl       string
 }
 
-func NewGhAppTokenProvider(pemKey string, appID int, installationID int) (*ghAppTokenProviderImpl, error) {
+func NewGhAppTokenProvider(pemKey string, appID int, installationID int, apiUrl string) (*ghAppTokenProviderImpl, error) {
 	log.Println("Creating a new GhAppTokenProvider")
 	p := &ghAppTokenProviderImpl{
 		pemKey:         pemKey,
 		appID:          appID,
 		installationID: installationID,
+		ghApiUrl:       apiUrl,
 	}
 	if err := p.refreshToken(); err != nil {
 		return nil, fmt.Errorf("Could not create GhAppTokenProvider with the provided parameters: appId=%d, installationId=%d, pemKey=%s", appID, installationID, pemKey)
@@ -61,7 +63,7 @@ func (t *ghAppTokenProviderImpl) refreshToken() error {
 		return err
 	}
 
-	url := fmt.Sprintf("https://api.github.com/app/installations/%d/access_tokens", t.installationID)
+	url := fmt.Sprintf("%s/app/installations/%d/access_tokens", t.ghApiUrl, t.installationID)
 	req, err := http.NewRequest("POST", url, nil)
 	if err != nil {
 		return err

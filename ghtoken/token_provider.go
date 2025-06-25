@@ -23,6 +23,10 @@ func NewGhTokenProvider() (GhTokenProvider, error) {
 	appPemKey, isSetAppPrivKey := os.LookupEnv("GH_TOKEN_APP_PRIVATE_KEY")
 	patVal, isSetPatVar := os.LookupEnv("GH_TOKEN")
 	stdPatVal, isSetStdPatVar := os.LookupEnv("GITHUB_TOKEN")
+	ghApiUrl, isSetGhApiUrl := os.LookupEnv("GH_TOKEN_API_URL")
+	if !isSetGhApiUrl {
+		ghApiUrl = "https://api.github.com"
+	}
 
 	if isSetAppId && isSetAppInstId && isSetAppPrivKey {
 		appId, err := strconv.Atoi(appIdStr)
@@ -33,7 +37,7 @@ func NewGhTokenProvider() (GhTokenProvider, error) {
 		if err != nil {
 			return nil, err
 		}
-		return providers.NewGhAppTokenProvider(appPemKey, appId, appInstId)
+		return providers.NewGhAppTokenProvider(appPemKey, appId, appInstId, ghApiUrl)
 	} else if isSetPatVar {
 		return providers.NewGhPatProvider(patVal)
 	} else if isSetStdPatVar {
