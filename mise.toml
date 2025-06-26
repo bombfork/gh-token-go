@@ -19,6 +19,12 @@ run = '''
  sed -i "/^go .*/d" go.mod && go mod tidy
 '''
 
+[tasks.update-all]
+description = "update all dependencies"
+run = '''
+  go get -u ./... && go mod tidy
+'''
+
 [tasks.format]
 description = "format"
 run = 'find . -name "*.go" -exec go fmt {} \;'
