@@ -64,7 +64,9 @@ N8vp4wZ9cdziWz+R4j0JWhyHiNxa
 func TestGhAppTokenProvider_GetToken_Success(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte(`{"token":"mocked-token-value"}`))
+		if _, err := w.Write([]byte(`{"token":"mocked-token-value"}`)); err != nil {
+			t.Fatalf("failed to write response: %v", err)
+		}
 	}))
 	defer testServer.Close()
 
@@ -87,7 +89,9 @@ func TestGhAppTokenProvider_GetToken_Success(t *testing.T) {
 func TestGhAppTokenProvider_GetToken_FailureInvalidPemKey(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte(`{"token":"mocked-token-value"}`))
+		if _, err := w.Write([]byte(`{"token":"mocked-token-value"}`)); err != nil {
+			t.Fatalf("failed to write response: %v", err)
+		}
 	}))
 	defer testServer.Close()
 
@@ -107,7 +111,9 @@ func TestGhAppTokenProvider_GetToken_FailureInvalidPemKey(t *testing.T) {
 func TestGhAppTokenProvider_GetToken_FailureForbidden(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusForbidden)
-		w.Write([]byte(`{"error":"Forbidden"}`))
+		if _, err := w.Write([]byte(`{"error":"Forbidden"}`)); err != nil {
+			t.Fatalf("failed to write response: %v", err)
+		}
 	}))
 	defer testServer.Close()
 

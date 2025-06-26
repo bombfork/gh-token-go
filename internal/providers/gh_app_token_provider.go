@@ -29,7 +29,7 @@ func NewGhAppTokenProvider(pemKey string, appID int, installationID int, apiUrl 
 		ghApiUrl:       apiUrl,
 	}
 	if err := p.refreshToken(); err != nil {
-		return nil, fmt.Errorf("Could not create GhAppTokenProvider with the provided parameters: appId=%d, installationId=%d, pemKey=%s", appID, installationID, pemKey)
+		return nil, fmt.Errorf("could not create GhAppTokenProvider with the provided parameters: appId=%d, installationId=%d, pemKey=%s", appID, installationID, pemKey)
 	}
 	log.Println("GhAppTokenProvider created successfully")
 	return p, nil
