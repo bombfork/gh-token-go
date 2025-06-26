@@ -8,15 +8,16 @@ It automatically handles token expiration and refreshing for GitHub App tokens.
 
 /* To use this package, set the appropriate environment variables and call `NewGhTokenProvider()` to get an instance of `GhTokenProvider`.
 - For GitHub App tokens:
-GH_TOKEN_APP_ID: The ID of the GitHub App.
-GH_TOKEN_APP_INST_ID: The installation ID of the GitHub App.
-GH_TOKEN_APP_PRIVATE_KEY: The private key of the GitHub App in PEM format.
+GH_TKN_APP_ID: The ID of the GitHub App.
+GH_TKN_APP_INST_ID: The installation ID of the GitHub App.
+GH_TKN_APP_PRIVATE_KEY: The private key of the GitHub App in PEM format.
 - For Personal Access Tokens (PAT):
-GH_TOKEN: The Personal Access Token.
+GH_TKN: The Personal Access Token.
 GITHUB_TOKEN: An alternative name for the Personal Access Token.
+GH_TOKEN: Another alternative name for the Personal Access Token.
 If neither set of variables is provided, an error will be returned indicating that no credentials were provided.
 If both GitHub App and PAT variables are set, the GitHub App token will be used.
-If both PAT vriables are set, GH_TOKEN will be used.
+For PAT usage, GH_TKN variable is precedent over GITHUB_TOKEN, which is precedent over GH_TOKEN.
 
 // Example usage:
 package main
@@ -42,4 +43,4 @@ func main() {
 }
 */
 
-/* You can set GH_TOKEN_API_URL to specify a custom GitHub API URL. */
+/* You can set GH_TKN_API_URL to specify a custom GitHub API URL. */
