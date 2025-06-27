@@ -1,0 +1,34 @@
+name: Bump Dependencies
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday at midnight
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MISE_EXPERIMENTAL: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - run: mise run bump-deps
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'chore: upgrade all dependencies at once'
+          title: 'Bump dependencies'
+          body: 'This PR bumps the dependencies to their latest versions.'
+          branch: 'bump-deps'
+          delete-branch: true
+          labels: 'dependencies'

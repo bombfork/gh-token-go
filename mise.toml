@@ -13,16 +13,14 @@ else
   echo 'OK : mock package not imported outside of test files'
 fi
 """
-[tasks.update-go]
-description = "update go from mise used version"
-run = '''
- sed -i "/^go .*/d" go.mod && go mod tidy
-'''
 
-[tasks.update-all]
+[tasks.bump-deps]
 description = "update all dependencies"
 run = '''
-  go get -u ./... && go mod tidy
+  mise up
+  sed -i "/^go .*/d" go.mod
+  go get -u ./...
+  go mod tidy
 '''
 
 [tasks.format]
