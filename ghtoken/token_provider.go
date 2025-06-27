@@ -10,21 +10,26 @@ import (
 type ErrNoCredsProvided struct{}
 
 func (e ErrNoCredsProvided) Error() string {
-	return "No credentials provided. Set either GH_TKN_APP_ID, GH_TKN_APP_INST_ID and GH_TKN_APP_PRIVATE_KEY, GH_TKN, GITHUB_TOKEN or GH_TOKEN environment variables."
+	return "no credentials provided. check the docs."
 }
 
 type GhTokenProvider interface {
 	GetToken() (string, error)
 }
 
-func NewGhTokenProvider() (GhTokenProvider, error) {
-	appIdStr, isSetAppId := os.LookupEnv("GH_TKN_APP_ID")
-	appInstIdStr, isSetAppInstId := os.LookupEnv("GH_TKN_APP_INST_ID")
-	appPemKey, isSetAppPrivKey := os.LookupEnv("GH_TKN_APP_PRIVATE_KEY")
-	patVal, isSetPatVar := os.LookupEnv("GH_TKN")
+func NewGhTokenProviderDefault() (GhTokenProvider, error) {
+	return NewGhTokenProvider(DefaultGhTokenProviderCfg)
+}
+
+func NewGhTokenProvider(cfg GhTokenProviderCfg) (GhTokenProvider, error) {
+	appIdStr, isSetAppId := os.LookupEnv(cfg.AppIdVarName)
+	appInstIdStr, isSetAppInstId := os.LookupEnv(cfg.AppInstIdVarName)
+	appPemKey, isSetAppPrivKey := os.LookupEnv(cfg.AppPemKeyVarName)
+	patVal, isSetPatVar := os.LookupEnv(cfg.PatVarName)
+	ghApiUrl, isSetGhApiUrl := os.LookupEnv(cfg.GhApiUrlVarName)
 	stdPatVal, isSetStdPatVar := os.LookupEnv("GITHUB_TOKEN")
 	stdPatAltVal, isSetStdPatAltVar := os.LookupEnv("GH_TOKEN")
-	ghApiUrl, isSetGhApiUrl := os.LookupEnv("GH_TKN_API_URL")
+
 	if !isSetGhApiUrl {
 		ghApiUrl = "https://api.github.com"
 	}
