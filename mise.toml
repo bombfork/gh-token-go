@@ -9,7 +9,7 @@ _.file = ".env.yaml"
 [tasks.draft-release]
 description = "draft a new release"
 run = '''
-dry_run='{{flag(name="dry")}}'
+dry_run='{{flag(name="dry", default="false")}}'
 release_type='{{option(name="release-type", default="minor")}}'
 scripts/draft_release.sh --release-type $release_type --dry-run $dry_run
 '''
