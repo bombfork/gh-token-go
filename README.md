@@ -13,7 +13,7 @@ The default configuration will use these environment variables:
 * `GH_TKN_APP_INST_ID` - The installation ID of the GitHub App.
 * `GH_TKN_APP_PRIVATE_KEY` - The private key of the GitHub App in PEM format.
 * `GH_TKN` - A Personal Access Token (PAT) to use instead of the GitHub App.
-If `GH_TKN` is unset, the stadnard variables `GITHUB_TOKEN` and `GH_TOKEN` will be tried as fallbacks, in that order.
+If `GH_TKN` is unset, the standard variables `GITHUB_TOKEN` and `GH_TOKEN` will be tried as fallback, in that order.
 ```go
 package main
 
