@@ -3,16 +3,50 @@ go = "latest"
 golangci-lint = "latest"
 gotestsum = "latest"
 
-[tasks.check-mocks-in-tests-only]
-description = "Check mocks are only imported in test files"
-run = """
-if git grep internal/testutils/mocks | cut -d':' -f1 | grep -vE 'mise.toml|_test.go$' >/dev/null; then
-  echo 'mocks package should not be imported outside of test files, fix those files : '
-  git grep internal/testutils/mocks | cut -d':' -f1 | grep -vE 'mise.toml|_test.go$' | uniq
-else
-  echo 'OK : mock package not imported outside of test files'
-fi
-"""
+[env]
+_.file = ".env.yaml"
+
+[tasks.draft-release]
+description = "draft a new release"
+run = '''
+  # Fail if not on main branch
+  if [[ $(git rev-parse --abbrev-ref HEAD) != "main" ]]; then
+    echo "You must be on the main branch to draft a release."
+    exit 1
+  fi
+  # Fail if there are uncommitted changes
+  if [[ -n $(git status --porcelain) ]]; then
+    echo "You have uncommitted changes. Please commit or stash them before drafting a release."
+    exit 1
+  fi
+  # Get the latest tag
+  git fetch --tags
+  latest_tag=$(git describe --tags --abbrev=0)
+  # Compute a new semantic tag based on the latest tag and provided argument
+  release_type="{{options(name='release_type', default='minor')}}"
+  if [[ "$release_type" == "major" ]]; then
+    new_tag=$(echo $latest_tag | sed 's/v//' | awk -F. '{print $1+1".0.0"}')
+  elif [[ "$release_type" == "minor" ]]; then
+    new_tag=$(echo $latest_tag | sed 's/v//' | awk -F. '{print $1"."$2+1".0"}')
+  elif [[ "$release_type" == "patch" ]]; then
+    new_tag=$(echo $latest_tag | sed 's/v//' | awk -F. '{print $1"."$2"."$3+1}')
+  else
+    echo "Invalid release type: $release_type"
+    exit 1
+  fi
+  new_tag="v$new_tag"
+  # Exit if dry run is enabled
+  if [[ "{{flag(name='dry-run')}}" == "true" ]]; then
+    echo "Dry run mode enabled. Tag that would have been created: $new_tag"
+    exit 0
+  fi
+  # Create the new tag
+  git tag -a "$new_tag" -m "Release $new_tag"
+  # Push the new tag to the remote
+  git push origin "$new_tag"
+  # Create a draft release on GitHub and generate release-notes
+  gh release create "$new_tag" --draft --generate-notes --title "Release $new_tag" --notes "Release for $new_tag"
+'''
 
 [tasks.bump-deps]
 description = "update all dependencies"
@@ -37,6 +71,17 @@ description = "lint"
 depends = ["check-mocks-in-tests-only"]
 run = "golangci-lint run"
 
+[tasks.check-mocks-in-tests-only]
+description = "Check mocks are only imported in test files"
+run = """
+if git grep internal/testutils/mocks | cut -d':' -f1 | grep -vE 'mise.toml|_test.go$' >/dev/null; then
+  echo 'mocks package should not be imported outside of test files, fix those files : '
+  git grep internal/testutils/mocks | cut -d':' -f1 | grep -vE 'mise.toml|_test.go$' | uniq
+else
+  echo 'OK : mock package not imported outside of test files'
+fi
+"""
+
 [tasks.test]
 description = "test"
 depends = ["check-mocks-in-tests-only"]
@@ -45,6 +90,3 @@ run = "gotestsum --format testname"
 [tasks.coverage]
 description = "Print a test coverage report"
 run = 'go test -coverprofile=coverage.out ./... >/dev/null 2>&1; sed -i "/internal\/testutils/d" coverage.out; go tool cover -func=coverage.out | grep -v "100.0%"; rm coverage.out'
-
-[env]
-_.file = ".env.yaml"
