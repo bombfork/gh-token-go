@@ -33,6 +33,13 @@ if [[ -n $(git status --porcelain) ]]; then
   echo "You have uncommitted changes. Please commit or stash them before drafting a release."
   exit 1
 fi
+# Fail if not up to date with remote main branch
+echo 'Checking if local main branch is up to date with remote...'
+git fetch origin
+if [[ $(git rev-parse HEAD) != $(git rev-parse origin/main) ]]; then
+  echo "Your local main branch is not up to date with the remote main branch. Please pull the latest changes."
+  exit 1
+fi
 # Get the latest tag
 echo 'Fetching latest tags...'
 git fetch --tags
