@@ -7,7 +7,7 @@ permissions:
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'  # Every Sunday at midnight
+    - cron: '0 0 * * 6'  # Every Saturday at midnight
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,6 +25,7 @@ jobs:
       - uses: jdx/mise-action@v2
       - run: mise run bump-deps
       - uses: peter-evans/create-pull-request@v7
+        id: create_pr
         with:
           commit-message: 'chore: upgrade all dependencies at once'
           title: 'Bump dependencies'
@@ -32,3 +33,11 @@ jobs:
           branch: 'bump-deps'
           delete-branch: true
           labels: 'dependencies'
+      - name: Notify on Discord
+        if: ${{ steps.create_pr.outputs.pull-request-number }}
+        uses: appleboy/discord-action@v1.2.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_TECH_WEBHOOK }}
+          message: |
+            A new pull request has been created to bump dependencies:
+            - **PR**: ${{ steps.create_pr.outputs.pull-request-url }}
