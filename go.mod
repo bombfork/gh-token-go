@@ -1,5 +1,5 @@
 module github.com/bombfork/gh-token-go
 
-go 1.24.4
+go 1.24.5
 
-require github.com/golang-jwt/jwt/v5 v5.2.2
+require github.com/golang-jwt/jwt/v5 v5.2.3
