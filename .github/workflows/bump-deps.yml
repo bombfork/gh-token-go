@@ -40,6 +40,7 @@ jobs:
           delete-branch: true
           labels: 'dependencies'
           token: ${{ steps.app-token.outputs.token }}
+          sign-commits: true
       - name: Norify on failure
         if: failure()
         uses: appleboy/discord-action@v1.2.0
