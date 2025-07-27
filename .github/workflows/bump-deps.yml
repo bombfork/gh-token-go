@@ -3,7 +3,7 @@ name: Bump Dependencies
 permissions:
   contents: write
   pull-requests: write
-#  issues: write
+  issues: write
 
 on:
   workflow_dispatch:
