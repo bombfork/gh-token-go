@@ -34,8 +34,10 @@ jobs:
         id: create_pr
         with:
           commit-message: 'chore: upgrade all dependencies at once'
-          title: 'Bump dependencies'
-          body: 'This PR bumps the dependencies to their latest versions.'
+          title: 'deps:bump all dependencies'
+          body: |
+            This PR bumps all dependencies to their latest versions.
+            It was created by [this](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) workflow run.
           branch: 'bump-deps'
           delete-branch: true
           labels: 'dependencies'
