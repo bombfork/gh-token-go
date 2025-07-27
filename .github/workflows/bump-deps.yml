@@ -3,6 +3,7 @@ name: Bump Dependencies
 permissions:
   contents: write
   pull-requests: write
+#  issues: write
 
 on:
   workflow_dispatch:
@@ -33,6 +34,15 @@ jobs:
           branch: 'bump-deps'
           delete-branch: true
           labels: 'dependencies'
+      - name: Norify on failure
+        if: failure()
+        uses: appleboy/discord-action@v1.2.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_TECH_WEBHOOK }}
+          message: |
+            The bump dependencies workflow failed.
+            Please check the logs for more details
+            - **Workflow**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Notify on Discord
         if: ${{ steps.create_pr.outputs.pull-request-number }}
         uses: appleboy/discord-action@v1.2.0
