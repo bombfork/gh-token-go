@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/bombfork/gh-token-go/compare/v0.6.1...v0.6.2) (2025-08-09)
+
+
+### Bug Fixes
+
+* add mise reshim to bump-deps task ([#31](https://github.com/bombfork/gh-token-go/issues/31)) ([145e72f](https://github.com/bombfork/gh-token-go/commit/145e72fc173f9b2b541f218b48e3b03d1c2ffdf5))
+
 ## [0.6.1](https://github.com/bombfork/gh-token-go/compare/v0.6.0...v0.6.1) (2025-07-27)
 
 
