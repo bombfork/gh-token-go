@@ -9,9 +9,15 @@ _.file = ".env.yaml"
 [tasks.bump-deps]
 description = "update all dependencies"
 run = '''
+  echo "Updating all dependencies..."
   mise up
+  echo "Reshimming mise..."
+  mise reshim
+  echo "Removing go.mod go.sum entries for 'go' directive..."
   sed -i "/^go .*/d" go.mod
+  echo "Updating go.mod and go.sum files..."
   go get -u ./...
+  echo "Cleaning up go.mod and go.sum files..."
   go mod tidy
 '''
 
