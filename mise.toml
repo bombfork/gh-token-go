@@ -11,10 +11,10 @@ description = "update all dependencies"
 run = '''
   echo "Updating all dependencies..."
   mise up
-  echo "Reshimming mise..."
-  mise reshim
   echo "Removing go.mod go.sum entries for 'go' directive..."
   sed -i "/^go .*/d" go.mod
+  echo "Re-installing tools..."
+  mise install
   echo "Updating go.mod and go.sum files..."
   go get -u ./...
   echo "Cleaning up go.mod and go.sum files..."
