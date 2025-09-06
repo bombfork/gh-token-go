@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.4](https://github.com/bombfork/gh-token-go/compare/v0.6.3...v0.6.4) (2025-09-06)
+
+
+### Bug Fixes
+
+* upgrade all dependencies at once ([#39](https://github.com/bombfork/gh-token-go/issues/39)) ([b70e6d9](https://github.com/bombfork/gh-token-go/commit/b70e6d90e30376aa74a39788d29e66841c1074c7))
+
 ## [0.6.3](https://github.com/bombfork/gh-token-go/compare/v0.6.2...v0.6.3) (2025-09-06)
 
 
