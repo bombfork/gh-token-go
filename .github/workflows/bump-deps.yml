@@ -33,8 +33,8 @@ jobs:
       - uses: peter-evans/create-pull-request@v7
         id: create_pr
         with:
-          commit-message: 'chore: upgrade all dependencies at once'
-          title: 'deps:bump all dependencies'
+          commit-message: 'fix: upgrade all dependencies at once'
+          title: 'fix: upgrade all dependencies at once'
           body: |
             This PR bumps all dependencies to their latest versions.
             It was created by [this](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) workflow run.
