@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.3](https://github.com/bombfork/gh-token-go/compare/v0.6.2...v0.6.3) (2025-09-06)
+
+
+### Bug Fixes
+
+* bump deps for ci ([#37](https://github.com/bombfork/gh-token-go/issues/37)) ([e54064a](https://github.com/bombfork/gh-token-go/commit/e54064abd2d08dccf22ae8c44ab82f24170693e8))
+* reinstall tools after deps bump ([#34](https://github.com/bombfork/gh-token-go/issues/34)) ([c0b6a40](https://github.com/bombfork/gh-token-go/commit/c0b6a409771f9236e13edd5399de4dee98ac1c87))
+
 ## [0.6.2](https://github.com/bombfork/gh-token-go/compare/v0.6.1...v0.6.2) (2025-08-09)
 
 
