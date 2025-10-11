@@ -20,7 +20,7 @@ run = '''
   mise install
   echo "Updating GOROOT"
   new_go_version=$(mise ls -cl go --json | jq -r '.[].version')
-  export GOROOT=$(echo "${goroot}" | sed s'/$current_go_version/$new_go_version/')
+  export GOROOT=$(echo "${GOROOT}" | sed s'/$current_go_version/$new_go_version/')
   echo "New GOROOT is ${GOROOT}"
   echo "Updating go.mod and go.sum files..."
   go get -u ./...
