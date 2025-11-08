@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.7](https://github.com/bombfork/gh-token-go/compare/v0.6.6...v0.6.7) (2025-11-08)
+
+
+### Bug Fixes
+
+* goroot when bump-deps ([#48](https://github.com/bombfork/gh-token-go/issues/48)) ([99b66c6](https://github.com/bombfork/gh-token-go/commit/99b66c67bacdab9d090ea5456698388c2a65cb5e))
+* upgrade all dependencies at once ([#51](https://github.com/bombfork/gh-token-go/issues/51)) ([40c7255](https://github.com/bombfork/gh-token-go/commit/40c72552b79db20237e5a02a3e4b7f58145a0945))
+
 ## [0.6.6](https://github.com/bombfork/gh-token-go/compare/v0.6.5...v0.6.6) (2025-10-25)
 
 
