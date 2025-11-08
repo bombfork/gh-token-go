@@ -24,6 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+        with:
+          cache: false # cache hits prevent proper go version bumps
       - run: mise run bump-deps
       - uses: actions/create-github-app-token@v2
         id: app-token
