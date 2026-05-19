@@ -98,4 +98,6 @@ jobs:
         with:
           version: v0.12.1
           command: ${{ steps.mode.outputs.command }} ${{ inputs.dry_run && '--dry-run' || '' }}
-          token: ${{ github.token }}
+          app-id: ${{ vars.RELEASER_APP_ID }}
+          app-installation-id: ${{ vars.RELEASER_APP_INSTALLATION_ID }}
+          app-private-key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
