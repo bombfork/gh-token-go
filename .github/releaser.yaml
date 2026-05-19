@@ -1,0 +1,8 @@
+adapter:
+    type: generic
+    build:
+        command: ""
+        artifacts: []
+release:
+    auth:
+        mode: default_token
